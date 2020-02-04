@@ -1,41 +1,32 @@
 const mongoose = require('mongoose');
+const {Schema} = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: false
     },
     surname: {
         type: String,
-        required: true
+        required: false
     },
     gender: {
         type: String,
-        required: true
+        required: false
     },
     title: {
         type: String,
-        required:true
+        required:false
     },
-    id: {
-        type:String,
-        value: this._id,
+    pets: [{
+        type: Schema.ObjectId,
+        ref: 'User'
+    }],
+    pet: {
+        type: String,
+        required:false
     }
 });
-
-const PetsSchema = new mongoose.Schema ({
-    name: {
-        type:String
-    },
-    size: {
-        type:String
-    }
-});
-
-const Pet = mongoose.model('Pet', PetsSchema);
 
 const User = mongoose.model('User', UserSchema);
-module.exports = {
-    User,
-    Pet
-}
+module.exports = User;
