@@ -1,5 +1,5 @@
-const fs = require('fs');
 const User = require('../model/user');
+
 
 const getUserAll = () => {
     return User.find({})
@@ -19,11 +19,31 @@ const deleteUser = async function (request, response){
     return await User.findByIdAndDelete(request.params.id, request.body)
 };
 
+const  getUserWithAllPets = async function () {
+    return User.find({})
+};
 
+const addPetForUser = async function (request, response) {
+try {
+    return  await User.aggregate([{
+            $lookup: {
+                from: "pets",
+                localField: "pet",
+                foreignField: "name",
+                as: "pets"
+            }}])
+} catch (e) {
+    throw e
+}
+};
 module.exports = {
     getUserAll,
     getUserById,
     addUser,
     updateUserById,
-    deleteUser
+    deleteUser,
+    getUserWithAllPets,
+    addPetForUser,
 };
+
+

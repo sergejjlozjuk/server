@@ -18,10 +18,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required:false
     },
-    pets: [{
-        type: Schema.ObjectId,
-        ref: 'User'
-    }],
     pet: {
         type: String,
         required:false

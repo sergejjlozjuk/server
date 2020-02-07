@@ -39,12 +39,18 @@ class UserController {
             response.send({error: e.message})
         }
     };
-// TODO function lookup in user_controller and user_service
-    getUserPets = async (request, response) => {
-    //     try {
-    //         const result = await request(params.id);
-    //
-    //     }
+
+    getUserWithAllPets = async (request, response) => {
+        response.send( await service.getUserWithAllPets())
+    };
+
+    addPetForUser = async (request, response) => {
+        try {
+            const result = await  service.addPetForUser(request);
+            response.status(201).send(result);
+        } catch (e) {
+            response.send({error: e.message})
+        }
     }
 }
 
