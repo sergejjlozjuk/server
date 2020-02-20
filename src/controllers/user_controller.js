@@ -51,6 +51,15 @@ class UserController {
         } catch (e) {
             response.send({error: e.message})
         }
+    };
+
+    login = async (request, response) => {
+        try {
+            const result = await  service.login(request);
+            response.status(201).send(result)
+        } catch (e) {
+            response.send({error: e.message})
+        }
     }
 }
 

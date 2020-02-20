@@ -10,32 +10,38 @@ const getUserById = async (request, response) => {
 const addUser = async function (request, response) {
     const user = new User(request.body);
     await user.save();
-    return user;
+    const token = await user.generateAutoToken();
+    return {user, token};
 };
 const updateUserById = async function (request, response) {
     return await User.findByIdAndUpdate(request.params.id, request.body)
 };
-const deleteUser = async function (request, response){
+const deleteUser = async function (request, response) {
     return await User.findByIdAndDelete(request.params.id, request.body)
 };
 
-const  getUserWithAllPets = async function () {
+const getUserWithAllPets = async function () {
     return User.find({})
 };
-
 const addPetForUser = async function (request, response) {
-try {
-    return  await User.aggregate([{
+    try {
+        return await User.aggregate([{
             $lookup: {
                 from: "pets",
                 localField: "pet",
                 foreignField: "name",
                 as: "pets"
-            }}])
-} catch (e) {
-    throw e
-}
+            }
+        }])
+    } catch (e) {
+        throw e
+    }
 };
+const login = async (request, response) => {
+        const user = await User.findByCredentials(request.body.login, request.body.password);
+        return {user}
+};
+
 module.exports = {
     getUserAll,
     getUserById,
@@ -44,6 +50,7 @@ module.exports = {
     deleteUser,
     getUserWithAllPets,
     addPetForUser,
+    login
 };
 
 

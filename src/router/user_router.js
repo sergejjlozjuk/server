@@ -12,6 +12,7 @@ user_router.post('/', user_controller.addUser);
 user_router.put('/:id', user_controller.updateUserById);
 user_router.delete('/:id', user_controller.deleteUser);
 user_router.post('/newpet', user_controller.addPetForUser);
+user_router.post('/login', user_controller.login);
 
 
 
