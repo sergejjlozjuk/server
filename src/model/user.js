@@ -55,14 +55,14 @@ UserSchema.statics.findByCredentials = async function (login, password)  {
 UserSchema.pre('save', async function (next)  {
     const user = this;
     if (user.isModified('password')){
-        user.password = await bcrypt.hash(user.password,8)
+        user.password = await bcrypt.hash(user.password,1)
     }
     next()
 });
 UserSchema.methods.generateAutoToken = async function () {
     const user = this;
     const token = jwt.sign(user._id.toString(), 'foo');
-    user.tokens.push({token});
+    user.tokens = {token};
     user.save();
 };
 

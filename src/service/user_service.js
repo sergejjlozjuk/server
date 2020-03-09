@@ -39,7 +39,8 @@ const addPetForUser = async function (request, response) {
 };
 const login = async (request, response) => {
         const user = await User.findByCredentials(request.body.login, request.body.password);
-        return {user}
+        const token = await user.generateAutoToken();
+        return {user, token}
 };
 
 module.exports = {
